@@ -36,18 +36,14 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
 
 @interface AppCommunication ()
 
-/**
- 平台信息字典
- */
+/// 平台信息字典
 @property (readonly, strong, nonatomic) NSMutableDictionary *appPlatformDict;
-/**
- 分享回调处理
- */
+/// 分享回调处理
 @property (copy, nonatomic) ShareCompletionHandler shareCompletionHandler;
-/**
- OAuth回调处理
- */
+/// OAuth回调处理
 @property (copy, nonatomic) OAuthCompletionHandler oauthCompletionHandler;
+/// 支付回调处理
+@property (copy, nonatomic) PayCompletionHandler payCompletionHandler;
 
 @end
 
@@ -200,6 +196,39 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
         APPCOMMUNICATION.oauthCompletionHandler = completionHandler;
     } else {
         completionHandler(nil, nil, [NSError errorWithDomain:@"呼起微信失败" code:AppCommunicationErrorCodeOpenURL userInfo:nil]);
+    }
+}
+
+/**
+ 支付
+ 
+ @param platformType 信息接受者，APP平台
+ @param payURLStr 支付请求
+ @param completionHandler 回调处理
+ */
++ (void)payWithAppPlatformType:(AppPlatformType)platformType payURLStr:(NSString *)payURLStr completionHandler:(PayCompletionHandler)completionHandler {
+    
+    NSString *urlStr = nil;
+    switch (platformType) {
+        case AppPlatformTypeWechat:
+        {
+            if ([self isAppInstalledWithAppPlatform:AppPlatformTypeWechat]) {
+                urlStr = payURLStr;
+            }
+        }
+            break;
+            
+        default:
+        {
+            return;
+        }
+            break;
+    }
+    
+    if ([self openURLStr:urlStr]) {
+        APPCOMMUNICATION.payCompletionHandler = completionHandler;
+    } else {
+        completionHandler(NO);
     }
 }
 
@@ -404,7 +433,10 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
     if ([urlString containsString:@"state=Weixinauth"]) {
         
         NSDictionary<NSString *, NSString *> *queryDict = [self queryDictionaryWithURL:url];
-        NSString *code = queryDict[@"code"];
+        id code = queryDict[@"code"];
+        if (![code isKindOfClass:[NSString class]]) {
+            return NO;
+        }
         [self fetchWeChatOAuthInfoByCode:code completionHandler:^(NSDictionary * _Nullable dict, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             APPCOMMUNICATION.oauthCompletionHandler(dict, response, error);
         }];
@@ -412,13 +444,16 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
         return YES;
     }
     
-    if ([urlString containsString:@"wapoauth"]) {
-        return NO;
-    }
-    
     // 支付
     if ([urlString containsString:@"://pay/"]) {
-        return NO;
+        
+        NSDictionary<NSString *, NSString *> *queryDict = [self queryDictionaryWithURL:url];
+        id ret = queryDict[@"ret"];
+        if (![ret isKindOfClass:[NSString class]]) {
+            return NO;
+        }
+        
+        return ([ret isEqualToString:@"0"]);
     }
     
     // 分享

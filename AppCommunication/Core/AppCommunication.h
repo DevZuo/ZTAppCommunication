@@ -48,9 +48,10 @@ typedef NS_ENUM(NSInteger, AppCommunicationErrorCode) {
 
 /// 网络请求回调处理
 typedef void(^NetworkingCompletionHandler)(NSDictionary * _Nullable dict, NSURLResponse * _Nullable response, NSError * _Nullable error);
-
 /// 分享回调处理
 typedef void(^ShareCompletionHandler)(BOOL success);
+/// 支付回调处理
+typedef void(^PayCompletionHandler)(BOOL success);
 /// OAuth回调处理
 #define OAuthCompletionHandler NetworkingCompletionHandler
 
@@ -88,6 +89,15 @@ typedef void(^ShareCompletionHandler)(BOOL success);
  @param completionHandler 回调处理
  */
 + (void)oauthWithAppPlatformType:(AppPlatformType)platformType scope:(NSString * _Nullable)scope completionHandler:(OAuthCompletionHandler)completionHandler;
+
+/**
+ 支付
+
+ @param platformType 信息接受者，APP平台
+ @param payURLStr 支付请求
+ @param completionHandler 回调处理
+ */
++ (void)payWithAppPlatformType:(AppPlatformType)platformType payURLStr:(NSString *)payURLStr completionHandler:(PayCompletionHandler)completionHandler;
 
 /// 处理UIApplication的application:openURL:sourceApplication:annotation:方法
 + (BOOL)handleOpenURL:(NSURL *)openURL;
