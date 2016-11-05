@@ -37,15 +37,6 @@ typedef NS_ENUM(NSInteger, ShareMessageType) {
     ShareMessageTypeQQFavorites
 };
 
-/**
- 错误码
-
- - AppCommunicationErrorCodeOpenURL: 呼起APP失败
- */
-typedef NS_ENUM(NSInteger, AppCommunicationErrorCode) {
-    AppCommunicationErrorCodeOpenURL = -1,
-};
-
 /// 网络请求回调处理
 typedef void(^NetworkingCompletionHandler)(NSDictionary * _Nullable dict, NSURLResponse * _Nullable response, NSError * _Nullable error);
 /// 分享回调处理

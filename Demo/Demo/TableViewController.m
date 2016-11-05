@@ -47,7 +47,7 @@
             message.messageType = AppMessageTypeURL;
             message.title = @"中华文化";
             message.content = @"中华文化，亦称华夏文化、汉文化，是指以春秋战国诸子百家为基础不断演化、发展而成的中国特有文化。其特征是以中华文化的诸子百家文化尤其是儒家文化与天朝思想为其骨干而发展。";
-            message.url = [NSURL URLWithString:@"https://www.baidu.com"];
+            message.url = @"https://www.baidu.com";
             message.thumbnailData = UIImagePNGRepresentation([UIImage imageNamed:@"logo"]);
         }
             break;
@@ -56,9 +56,9 @@
             message.messageType = AppMessageTypeAudio;
             message.title = @"中华文化";
             message.content = @"中华文化，亦称华夏文化、汉文化，是指以春秋战国诸子百家为基础不断演化、发展而成的中国特有文化。其特征是以中华文化的诸子百家文化尤其是儒家文化与天朝思想为其骨干而发展。";
-            message.url = [NSURL URLWithString:@"https://www.baidu.com"];
-            message.audioURL = [NSURL URLWithString:@"http://stream20.qqmusic.qq.com/32464723.mp3"];
-            message.url = [NSURL URLWithString:@"https://www.baidu.com"];
+            message.url = @"https://www.baidu.com";
+            message.audioURL = @"http://stream20.qqmusic.qq.com/32464723.mp3";
+            message.url = @"https://www.baidu.com";
             message.thumbnailData = UIImagePNGRepresentation([UIImage imageNamed:@"logo"]);
         }
             break;
@@ -67,7 +67,7 @@
             message.messageType = AppMessageTypeVideo;
             message.title = @"中华文化";
             message.content = @"中华文化，亦称华夏文化、汉文化，是指以春秋战国诸子百家为基础不断演化、发展而成的中国特有文化。其特征是以中华文化的诸子百家文化尤其是儒家文化与天朝思想为其骨干而发展。";
-            message.videoURL = [NSURL URLWithString:@"http://v.youku.com/v_show/id_XNTUxNDY1NDY4.html"];
+            message.videoURL = @"http://v.youku.com/v_show/id_XNTUxNDY1NDY4.html";
             message.thumbnailData = UIImagePNGRepresentation([UIImage imageNamed:@"logo"]);
         }
             break;

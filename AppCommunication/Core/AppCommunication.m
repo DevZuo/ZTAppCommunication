@@ -9,19 +9,34 @@
 #import "AppCommunication.h"
 
 #import "UIImage+ZTCategory.h"
+#import "NSBundle+ZTCategory.h"
+#import "NSString+ZTCategory.h"
 
 #define APPCOMMUNICATION [AppCommunication singleton]
 
-#define WeChatAppID APPCOMMUNICATION.appPlatformDict[@"AppCommunication.WeChat.AppID"]
-#define SetWeChatAppID(x) [APPCOMMUNICATION.appPlatformDict setObject:x forKey:@"AppCommunication.WeChat.AppID"]
+#define WeChatAppIDIdentifier @"AppCommunication.WeChat.AppID"
+#define WeChatAppID APPCOMMUNICATION.appPlatformDict[WeChatAppIDIdentifier]
+#define SetWeChatAppID(x) [APPCOMMUNICATION.appPlatformDict setObject:x forKey:WeChatAppIDIdentifier]
 
-#define WeChatAppSecret APPCOMMUNICATION.appPlatformDict[@"AppCommunication.WeChat.AppSecret"]
-#define SetWeChatAppSecret(x) [APPCOMMUNICATION.appPlatformDict setObject:x forKey:@"AppCommunication.WeChat.AppSecret"]
+#define WeChatAppSecretIdentifier @"AppCommunication.WeChat.AppSecret"
+#define WeChatAppSecret APPCOMMUNICATION.appPlatformDict[WeChatAppSecretIdentifier]
+#define SetWeChatAppSecret(x) [APPCOMMUNICATION.appPlatformDict setObject:x forKey:WeChatAppSecretIdentifier]
 
-#define QQAppID APPCOMMUNICATION.appPlatformDict[@"AppCommunication.QQ.AppID"]
-#define SetQQAppID(x) [APPCOMMUNICATION.appPlatformDict setObject:x forKey:@"AppCommunication.QQ.AppID"]
+#define QQAppIDIdentifier @"AppCommunication.QQ.AppID"
+#define QQAppID APPCOMMUNICATION.appPlatformDict[QQAppIDIdentifier]
+#define SetQQAppID(x) [APPCOMMUNICATION.appPlatformDict setObject:x forKey:QQAppIDIdentifier]
 
 #define WeChatPasteboardType @"content"
+#define QQPasteboardType @"com.tencent.mqq.api.apiLargeData"
+
+/**
+ 错误码
+ 
+ - AppCommunicationErrorCodeOpenURL: 呼起APP失败
+ */
+typedef NS_ENUM(NSInteger, AppCommunicationErrorCode) {
+    AppCommunicationErrorCodeOpenURL = -1,
+};
 
 /**
  网络请求方法
@@ -151,6 +166,16 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
             }
         }
             break;
+        case ShareMessageTypeQQFriend:
+        case ShareMessageTypeQQZone:
+        case ShareMessageTypeQQFavorites:
+        {
+            if ([self isAppInstalledWithAppPlatform:AppPlatformTypeQQ]) {
+                urlStr = [self qqMessgaURLStrWithMessage:message forShareMessageType:shareMessageType];
+                [self setupQQMessgaDataWithAppMessage:message];
+            }
+        }
+            break;
             
         default:
         {
@@ -232,12 +257,16 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
     }
 }
 
-/**
- 处理UIApplication的application:openURL:sourceApplication:annotation:方法
- */
+/// 处理UIApplication的application:openURL:sourceApplication:annotation:方法
 + (BOOL)handleOpenURL:(NSURL *)url {
-    if ([url.scheme hasPrefix:WeChatAppID]) {
+    
+    NSString *urlScheme = url.scheme;
+    if ([urlScheme hasPrefix:WeChatAppID]) {
         return [self handleWeChatOpenURL:url];
+    } else if ([urlScheme hasPrefix:@"QQ"]) {
+        return [self handleQQShareOpenURL:url];
+    } else if ([urlScheme hasPrefix:@"tencent"]) {
+        return [self handleQQOAuthOpenURL:url];
     }
     
     return NO;
@@ -245,16 +274,12 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
 
 #pragma mark - Private
 
-/**
- 判断值为nil返回空字符串
- */
+/// 判断值为nil返回空字符串
 + (id)valueIsNilReturnEmptyString:(id)value {
     return value ? value : @"";
 }
 
-/**
- 判断值为nil返回NSNull
- */
+/// 判断值为nil返回NSNull
 + (id)valueIsNilReturnNSNull:(id)value {
     return value ? value : [NSNull null];
 }
@@ -269,9 +294,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
     return NO;
 }
 
-/**
- 调用UIApplication的openURL:方法
- */
+/// 调用UIApplication的openURL:方法
 + (BOOL)openURLStr:(NSString *)urlStr {
     
     NSURL *url = [NSURL URLWithString:urlStr];
@@ -281,9 +304,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
     return NO;
 }
 
-/**
- 获取url的queryItem字典
- */
+/// 获取url的queryItem字典
 + (NSDictionary<NSString *, NSString *> *)queryDictionaryWithURL:(NSURL *)url {
     
     NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
@@ -294,9 +315,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
     return dict;
 }
 
-/**
- 压缩图片
- */
+/// 压缩图片
 + (NSData  * _Nullable)compressedImageData:(NSData *)originalData {
     
     if (!originalData) {
@@ -390,22 +409,22 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
         {
             [dict setObject:@"1010" forKey:@"command"];
             [dict setObject:@"5" forKey:@"objectType"];
-            [dict setObject:[self valueIsNilReturnEmptyString:message.url.absoluteString] forKey:@"mediaUrl"];
+            [dict setObject:[self valueIsNilReturnEmptyString:message.url] forKey:@"mediaUrl"];
         }
             break;
         case AppMessageTypeAudio:
         {
             [dict setObject:@"1010" forKey:@"command"];
             [dict setObject:@"3" forKey:@"objectType"];
-            [dict setObject:[self valueIsNilReturnEmptyString:message.url.absoluteString] forKey:@"mediaUrl"];
-            [dict setObject:[self valueIsNilReturnEmptyString:message.audioURL.absoluteString] forKey:@"mediaDataUrl"];
+            [dict setObject:[self valueIsNilReturnEmptyString:message.url] forKey:@"mediaUrl"];
+            [dict setObject:[self valueIsNilReturnEmptyString:message.audioURL] forKey:@"mediaDataUrl"];
         }
             break;
         case AppMessageTypeVideo:
         {
             [dict setObject:@"1010" forKey:@"command"];
             [dict setObject:@"4" forKey:@"objectType"];
-            [dict setObject:[self valueIsNilReturnEmptyString:message.videoURL.absoluteString] forKey:@"mediaUrl"];
+            [dict setObject:[self valueIsNilReturnEmptyString:message.videoURL] forKey:@"mediaUrl"];
         }
             break;
             
@@ -422,9 +441,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
     [[UIPasteboard generalPasteboard] setData:data forPasteboardType:WeChatPasteboardType];
 }
 
-/**
- 处理微信的OpenURL
- */
+/// 处理微信的OpenURL
 + (BOOL)handleWeChatOpenURL:(NSURL *)url {
     
     NSString *urlString = url.absoluteString;
@@ -490,6 +507,161 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
     [accessTokenAPI appendFormat:@"&code=%@", code];
     
     [self requestWithURLString:accessTokenAPI networkingMethod:NetworkingMethodGET parameters:nil completionHandler:completionHandler];
+}
+
+#pragma mark - QQ
+
+/// 生成QQ平台的请求信息的URL
++ (NSString * _Nullable)qqMessgaURLStrWithMessage:(AppMessage *)message forShareMessageType:(ShareMessageType)shareMessageType {
+    
+    NSInteger scene = 0x00;
+    switch (shareMessageType) {
+        case ShareMessageTypeQQFriend:
+        {
+            scene = 0x00;
+        }
+            break;
+        case ShareMessageTypeQQZone:
+        {
+            scene = 0x01;
+        }
+            break;
+        case ShareMessageTypeQQFavorites:
+        {
+            scene = 0x08;
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    NSString *callBackName = [self qqCallBackName];
+    NSString *bundleDisplayName = [[NSBundle zt_bundleDisplayName] zt_base64EncodedString];
+    NSMutableString *urlStr = [NSMutableString stringWithString:@"mqqapi://share/to_fri?cflag=0"];
+    
+    [urlStr appendString:@"&callback_type=scheme&generalpastboard=1&objectlocation=pasteboard"];
+    [urlStr appendFormat:@"&thirdAppDisplayName=%@", bundleDisplayName];
+    [urlStr appendFormat:@"&version=1&shareType=%@", @(scene)];
+    [urlStr appendFormat:@"&callback_name=%@", callBackName];
+    [urlStr appendString:@"&src_type=app&shareType=0&file_type="];
+    
+    switch (message.messageType) {
+        case AppMessageTypeText:
+        {
+            [urlStr appendString:@"text&file_data="];
+            NSString *encodedURLContent = [[message.content zt_base64EncodedString] zt_urlEncodedString];
+            if (encodedURLContent) {
+                [urlStr appendFormat:@"%@", encodedURLContent];
+            }
+        }
+            break;
+        case AppMessageTypeImage:
+        {
+            [urlStr appendString:@"img"];
+        }
+            break;
+        case AppMessageTypeURL:
+        {
+            [urlStr appendString:@"news"];
+            NSString *encodedURLString = [[message.url zt_base64EncodedString] zt_urlEncodedString];
+            if (encodedURLString) {
+                [urlStr appendFormat:@"&url=%@", encodedURLString];
+            }
+        }
+            break;
+        case AppMessageTypeAudio:
+        {
+            [urlStr appendString:@"audio"];
+            NSString *encodedURLString = [[message.audioURL zt_base64EncodedString] zt_urlEncodedString];
+            if (encodedURLString) {
+                [urlStr appendFormat:@"&url=%@", encodedURLString];
+            }
+        }
+            break;
+        case AppMessageTypeVideo:
+        {
+            [urlStr appendString:@"news"];
+            NSString *encodedURLString = [[message.videoURL zt_base64EncodedString] zt_urlEncodedString];
+            if (encodedURLString) {
+                [urlStr appendFormat:@"&url=%@", encodedURLString];
+            }
+        }
+            break;
+        case AppMessageTypeFile:
+        {
+            [urlStr appendString:@"localFile"];
+            NSString *filename = [[message.content zt_base64EncodedString] zt_urlEncodedString];
+            [urlStr appendFormat:@"&fileName=%@", filename];
+        }
+            break;
+            
+        default:
+        {
+            return nil;
+        }
+            break;
+    }
+    
+    NSString *title = [[message.content zt_base64EncodedString] zt_urlEncodedString];
+    if (title) {
+        [urlStr appendFormat:@"&title=%@", title];
+    }
+    NSString *content = [[message.content zt_base64EncodedString] zt_urlEncodedString];
+    if (content) {
+        [urlStr appendFormat:@"&description=%@", content];
+    }
+    
+    return urlStr;
+}
+
+/// 设置QQ分享信息的数据
++ (void)setupQQMessgaDataWithAppMessage:(AppMessage *)message {
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    
+    if (AppMessageTypeFile == message.messageType) {
+        [dict setObject:message.fileData forKey:@"file_data"];
+    } else {
+        if (message.imgData) {
+            [dict setObject:message.imgData forKey:@"file_data"];
+        }
+        if (message.thumbnailData) {
+            [dict setObject:message.thumbnailData forKey:@"previewimagedata"];
+        }
+    }
+    
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
+    [[UIPasteboard generalPasteboard] setData:data forPasteboardType:QQPasteboardType];
+}
+
+/// 处理QQ分享的OpenURL
++ (BOOL)handleQQShareOpenURL:(NSURL *)url {
+    
+    NSDictionary<NSString *, NSString *> *queryDict = [self queryDictionaryWithURL:url];
+    id error = queryDict[@"error"];
+    if ([error isKindOfClass:[NSString class]]) {
+        BOOL success = [error isEqualToString:@"0"];
+        APPCOMMUNICATION.shareCompletionHandler(success);
+        return success;
+    }
+    
+    return NO;
+}
+
+/// 处理QQ OAuth的OpenURL
++ (BOOL)handleQQOAuthOpenURL:(NSURL *)url {
+    return NO;
+}
+
+/// 获取qqCallBackName
++ (NSString *)qqCallBackName {
+    
+    NSString *appIDStr = [NSString stringWithFormat:@"%02llx", [QQAppID longLongValue]];
+    while (appIDStr.length < 8) {
+        appIDStr = [@"0" stringByAppendingString:appIDStr];
+    }
+    return [@"QQ" stringByAppendingString:appIDStr];
 }
 
 #pragma mark - Networking

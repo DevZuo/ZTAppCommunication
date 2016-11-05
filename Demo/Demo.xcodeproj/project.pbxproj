@@ -17,6 +17,8 @@
 		F16E193E1DCB33EB006B055C /* AppPlatform.m in Sources */ = {isa = PBXBuildFile; fileRef = F16E193B1DCB33EB006B055C /* AppPlatform.m */; };
 		F16E19411DCB35AF006B055C /* AppMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F16E19401DCB35AF006B055C /* AppMessage.m */; };
 		F18A3C8B1DCD7DD100FD30C2 /* UIImage+ZTCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F18A3C8A1DCD7DD100FD30C2 /* UIImage+ZTCategory.m */; };
+		F18A3C921DCDCE7F00FD30C2 /* NSString+ZTCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F18A3C911DCDCE7F00FD30C2 /* NSString+ZTCategory.m */; };
+		F18A3C961DCDCFA700FD30C2 /* NSBundle+ZTCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F18A3C951DCDCFA700FD30C2 /* NSBundle+ZTCategory.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,6 +53,10 @@
 		F16E19401DCB35AF006B055C /* AppMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppMessage.m; sourceTree = "<group>"; };
 		F18A3C891DCD7DD100FD30C2 /* UIImage+ZTCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ZTCategory.h"; sourceTree = "<group>"; };
 		F18A3C8A1DCD7DD100FD30C2 /* UIImage+ZTCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ZTCategory.m"; sourceTree = "<group>"; };
+		F18A3C901DCDCE7F00FD30C2 /* NSString+ZTCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+ZTCategory.h"; sourceTree = "<group>"; };
+		F18A3C911DCDCE7F00FD30C2 /* NSString+ZTCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ZTCategory.m"; sourceTree = "<group>"; };
+		F18A3C941DCDCFA700FD30C2 /* NSBundle+ZTCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+ZTCategory.h"; sourceTree = "<group>"; };
+		F18A3C951DCDCFA700FD30C2 /* NSBundle+ZTCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+ZTCategory.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +145,8 @@
 		F18A3C831DCD757A00FD30C2 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				F18A3C931DCDCF9800FD30C2 /* NSBundle+ZTCategory */,
+				F18A3C8C1DCDCE4300FD30C2 /* NSString+ZTCategory */,
 				F18A3C881DCD7DD100FD30C2 /* UIImage+ZTCategory */,
 			);
 			path = Category;
@@ -151,6 +159,24 @@
 				F18A3C8A1DCD7DD100FD30C2 /* UIImage+ZTCategory.m */,
 			);
 			path = "UIImage+ZTCategory";
+			sourceTree = "<group>";
+		};
+		F18A3C8C1DCDCE4300FD30C2 /* NSString+ZTCategory */ = {
+			isa = PBXGroup;
+			children = (
+				F18A3C901DCDCE7F00FD30C2 /* NSString+ZTCategory.h */,
+				F18A3C911DCDCE7F00FD30C2 /* NSString+ZTCategory.m */,
+			);
+			path = "NSString+ZTCategory";
+			sourceTree = "<group>";
+		};
+		F18A3C931DCDCF9800FD30C2 /* NSBundle+ZTCategory */ = {
+			isa = PBXGroup;
+			children = (
+				F18A3C941DCDCFA700FD30C2 /* NSBundle+ZTCategory.h */,
+				F18A3C951DCDCFA700FD30C2 /* NSBundle+ZTCategory.m */,
+			);
+			path = "NSBundle+ZTCategory";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,6 +253,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F18A3C961DCDCFA700FD30C2 /* NSBundle+ZTCategory.m in Sources */,
 				F16E193D1DCB33EB006B055C /* AppCommunication.m in Sources */,
 				F16E19411DCB35AF006B055C /* AppMessage.m in Sources */,
 				F127E5D21DCB23A40069F99A /* AppDelegate.m in Sources */,
@@ -234,6 +261,7 @@
 				F16E193E1DCB33EB006B055C /* AppPlatform.m in Sources */,
 				F127E5CF1DCB23A40069F99A /* main.m in Sources */,
 				F18A3C8B1DCD7DD100FD30C2 /* UIImage+ZTCategory.m in Sources */,
+				F18A3C921DCDCE7F00FD30C2 /* NSString+ZTCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

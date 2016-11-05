@@ -43,11 +43,11 @@ typedef NS_ENUM(NSInteger, AppMessageType) {
 /// 缩略图
 @property (nullable, strong, nonatomic) NSData *thumbnailData;
 /// URL
-@property (nullable, strong, nonatomic) NSURL *url;
+@property (nullable, copy, nonatomic) NSString *url;
 /// 音频URL
-@property (nullable, strong, nonatomic) NSURL *audioURL;
+@property (nullable, copy, nonatomic) NSString *audioURL;
 /// 视频URL
-@property (nullable, strong, nonatomic) NSURL *videoURL;
+@property (nullable, copy, nonatomic) NSString *videoURL;
 /// 文件
 @property (nullable, strong, nonatomic) NSData *fileData;
 /// 消息类型
