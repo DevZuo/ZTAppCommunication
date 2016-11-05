@@ -8,6 +8,8 @@
 
 #import "AppCommunication.h"
 
+#import "UIImage+ZTCategory.h"
+
 #define APPCOMMUNICATION [AppCommunication singleton]
 
 #define WeChatAppID APPCOMMUNICATION.appPlatformDict[@"AppCommunication.WeChat.AppID"]
@@ -170,6 +172,9 @@
  */
 + (NSData *)compressedImageData:(NSData *)originalData {
     
+    if (!originalData) { return nil; }
+    
+    return [UIImage zt_compressedWithImageData:originalData maxSize:CGSizeMake(240, 240) maxDateLength:31500];
 }
 
 #pragma mark - WeChat
@@ -234,7 +239,7 @@
         [dict setObject:[self valueIsNilReturnEmptyString:message.content] forKey:@"description"];
     }
     if (message.thumbnailData) {
-        [dict setObject:[self valueIsNilReturnNSNull:message.thumbnailData] forKey:@"thumbData"];
+        [dict setObject:[self compressedImageData:message.thumbnailData] forKey:@"thumbData"];
     }
     
     switch (message.messageType) {
