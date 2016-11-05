@@ -21,8 +21,8 @@
     // Override point for customization after application launch.
     
     NSArray<AppPlatform *> *platforms =
-  @[[AppPlatform WeChatPlatformWithAppID:@"wx4868b35061f87885"],
-    [AppPlatform QQPlatformTypeWithAppID:@"1104881792"]];
+  @[[AppPlatform weChatPlatformWithAppID:@"wx483f72523517dbac" appSecret:@"64020361b8ec4c99936c0e3999a9f249"],
+    [AppPlatform qqPlatformTypeWithAppID:@"1104881792"]];
     [AppCommunication registerAppPlatform:platforms];
     
     return YES;

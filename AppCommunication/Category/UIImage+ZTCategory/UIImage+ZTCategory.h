@@ -43,6 +43,6 @@
  @param maxDateLength 最大内存
  @return 压缩后的图片数据
  */
-+ (NSData *)zt_compressedWithImageData:(NSData *)imageData maxSize:(CGSize)maxSize maxDateLength:(NSInteger)maxDateLength;
++ (NSData *)zt_compressedImageData:(NSData *)imageData maxSize:(CGSize)maxSize maxDateLength:(NSInteger)maxDateLength;
 
 @end

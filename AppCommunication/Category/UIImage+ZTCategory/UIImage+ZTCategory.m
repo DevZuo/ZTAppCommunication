@@ -51,7 +51,7 @@
     if (!imageData) {
         return nil;
     }
-    NSData *compressedImageData = [UIImage zt_compressedWithImageData:imageData maxSize:maxSize maxDateLength:maxDateLength];
+    NSData *compressedImageData = [UIImage zt_compressedImageData:imageData maxSize:maxSize maxDateLength:maxDateLength];
     
     return [UIImage imageWithData:compressedImageData];
 }
@@ -64,7 +64,7 @@
  @param maxDateLength 最大内存
  @return 压缩后的图片数据
  */
-+ (NSData *)zt_compressedWithImageData:(NSData *)imageData maxSize:(CGSize)maxSize maxDateLength:(NSInteger)maxDateLength {
++ (NSData *)zt_compressedImageData:(NSData *)imageData maxSize:(CGSize)maxSize maxDateLength:(NSInteger)maxDateLength {
     
     if (!imageData) {
         return nil;
@@ -74,7 +74,17 @@
     CGFloat minCompressionQuality = 0.01;
     NSData *compressedImageData = nil;
     
-    while (imageData.length>maxDateLength && compressionQuality>minCompressionQuality) {
+    if(imageData.length <= maxDateLength) {
+        
+        UIImage *image = [UIImage imageWithData:imageData];
+        if (!image) {
+            return nil;
+        }
+        UIImage *compressedImage = [image zt_compressedInSize:maxSize];
+        return UIImageJPEGRepresentation(compressedImage, 1);
+    }
+    
+    while (compressionQuality > minCompressionQuality) {
         
         compressionQuality -= 0.1;
         @autoreleasepool {

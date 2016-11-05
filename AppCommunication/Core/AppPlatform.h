@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  平台类型
  
@@ -21,28 +23,22 @@ typedef NS_ENUM(NSInteger, AppPlatformType) {
     AppPlatformTypeQQ
 };
 
-/**
- APP通讯平台
- */
+/// APP通讯平台
 @interface AppPlatform : NSObject
 
-/**
- 平台类型
- */
+/// 平台类型
 @property (readonly, nonatomic) AppPlatformType platformType;
-/**
- AppID
- */
+/// AppID
 @property (readonly, copy, nonatomic) NSString *appID;
+/// AppSecret
+@property (readonly, copy, nonatomic) NSString *appSecret;
 
-/**
- 初始化微信平台
- */
-+ (instancetype)WeChatPlatformWithAppID:(NSString *)appID;
+/// 初始化微信平台
++ (instancetype)weChatPlatformWithAppID:(NSString *)appID appSecret:(NSString *)appSecret;
 
-/**
- 初始化QQ平台
- */
-+ (instancetype)QQPlatformTypeWithAppID:(NSString *)appID;
+/// 初始化QQ平台
++ (instancetype)qqPlatformTypeWithAppID:(NSString *)appID;
 
 @end
+
+NS_ASSUME_NONNULL_END

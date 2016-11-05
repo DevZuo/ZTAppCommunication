@@ -15,10 +15,24 @@
 #define WeChatAppID APPCOMMUNICATION.appPlatformDict[@"AppCommunication.WeChat.AppID"]
 #define SetWeChatAppID(x) [APPCOMMUNICATION.appPlatformDict setObject:x forKey:@"AppCommunication.WeChat.AppID"]
 
+#define WeChatAppSecret APPCOMMUNICATION.appPlatformDict[@"AppCommunication.WeChat.AppSecret"]
+#define SetWeChatAppSecret(x) [APPCOMMUNICATION.appPlatformDict setObject:x forKey:@"AppCommunication.WeChat.AppSecret"]
+
 #define QQAppID APPCOMMUNICATION.appPlatformDict[@"AppCommunication.QQ.AppID"]
 #define SetQQAppID(x) [APPCOMMUNICATION.appPlatformDict setObject:x forKey:@"AppCommunication.QQ.AppID"]
 
 #define WeChatPasteboardType @"content"
+
+/**
+ 网络请求方法
+
+ - NetworkingMethodPOST: POST
+ - NetworkingMethodGET: GET
+ */
+typedef NS_ENUM(NSInteger, NetworkingMethod) {
+    NetworkingMethodPOST,
+    NetworkingMethodGET
+};
 
 @interface AppCommunication ()
 
@@ -29,7 +43,11 @@
 /**
  分享回调处理
  */
-@property (copy, nonatomic) CompletionHandler shareCompletionHandler;
+@property (copy, nonatomic) ShareCompletionHandler shareCompletionHandler;
+/**
+ OAuth回调处理
+ */
+@property (copy, nonatomic) OAuthCompletionHandler oauthCompletionHandler;
 
 @end
 
@@ -63,6 +81,34 @@
 #pragma mark - Public
 
 /**
+ 检测APP是否安装
+ 
+ @param platformType APP平台类型
+ @return APP是否安装标识符
+ */
++ (BOOL)isAppInstalledWithAppPlatform:(AppPlatformType)platformType {
+    
+    switch (platformType) {
+        case AppPlatformTypeWechat:
+        {
+            return [self canOpenURLStr:@"weixin://"];
+        }
+            break;
+        case AppPlatformTypeQQ:
+        {
+            return [self canOpenURLStr:@"mqqapi://"];
+        }
+            break;
+            
+        default:
+        {
+            return NO;
+        }
+            break;
+    }
+}
+
+/**
  注册APP平台
  
  @param appPlatforms APP平台
@@ -74,6 +120,7 @@
             case AppPlatformTypeWechat:
             {
                 SetWeChatAppID(appPlatform.appID);
+                SetWeChatAppSecret(appPlatform.appSecret);
             }
                 break;
             case AppPlatformTypeQQ:
@@ -94,16 +141,18 @@
  @param message 需要发送的信息
  @param shareMessageType 信息接受者，APP平台
  */
-+ (void)shareMessage:(AppMessage *)message forShareMessageType:(ShareMessageType)shareMessageType completionHandler:(CompletionHandler)completionHandler {
++ (void)shareMessage:(AppMessage *)message forShareMessageType:(ShareMessageType)shareMessageType completionHandler:(ShareCompletionHandler)completionHandler {
     
-    NSURL *url = nil;
+    NSString *urlStr = nil;
     switch (shareMessageType) {
         case ShareMessageTypeWeChatFriend:
         case ShareMessageTypeWeChatTimeline:
         case ShareMessageTypeWeChatFavorite:
         {
-            url = [self WeChatMessgaURL];
-            [self setupWeChatMessgaDataWithAppMessage:message forShareMessageType:shareMessageType];
+            if ([self isAppInstalledWithAppPlatform:AppPlatformTypeWechat]) {
+                urlStr = [self weChatMessgaURLStr];
+                [self setupWeChatMessgaDataWithAppMessage:message forShareMessageType:shareMessageType];
+            }
         }
             break;
             
@@ -114,8 +163,44 @@
             break;
     }
     
-    APPCOMMUNICATION.shareCompletionHandler = completionHandler;
-    [self openURL:url];
+    if ([self openURLStr:urlStr]) {
+        APPCOMMUNICATION.shareCompletionHandler = completionHandler;
+    } else {
+        completionHandler(NO);
+    }
+}
+
+/**
+ OAuth
+ 
+ @param platformType 授权平台
+ @param scope 授权内容
+ @param completionHandler 回调处理
+ */
++ (void)oauthWithAppPlatformType:(AppPlatformType)platformType scope:(NSString * _Nullable)scope completionHandler:(OAuthCompletionHandler)completionHandler {
+    
+    NSString *urlStr = nil;
+    switch (platformType) {
+        case AppPlatformTypeWechat:
+        {
+            if ([self isAppInstalledWithAppPlatform:AppPlatformTypeWechat]) {
+                urlStr = [self weChatOAuthURLStrWithScope:scope];
+            }
+        }
+            break;
+            
+        default:
+        {
+            return;
+        }
+            break;
+    }
+    
+    if ([self openURLStr:urlStr]) {
+        APPCOMMUNICATION.oauthCompletionHandler = completionHandler;
+    } else {
+        completionHandler(nil, nil, [NSError errorWithDomain:@"呼起微信失败" code:AppCommunicationErrorCodeOpenURL userInfo:nil]);
+    }
 }
 
 /**
@@ -145,13 +230,26 @@
     return value ? value : [NSNull null];
 }
 
+/// 调用UIApplication的canOpenURL:方法
++ (BOOL)canOpenURLStr:(NSString *)urlStr {
+    
+    NSURL *url = [NSURL URLWithString:urlStr];
+    if (url) {
+        return [[UIApplication sharedApplication] canOpenURL:url];
+    }
+    return NO;
+}
+
 /**
  调用UIApplication的openURL:方法
  */
-+ (void)openURL:(NSURL *)url {
++ (BOOL)openURLStr:(NSString *)urlStr {
+    
+    NSURL *url = [NSURL URLWithString:urlStr];
     if (url) {
-        [[UIApplication sharedApplication] openURL:url];
+        return [[UIApplication sharedApplication] openURL:url];
     }
+    return NO;
 }
 
 /**
@@ -170,23 +268,27 @@
 /**
  压缩图片
  */
-+ (NSData *)compressedImageData:(NSData *)originalData {
++ (NSData  * _Nullable)compressedImageData:(NSData *)originalData {
     
-    if (!originalData) { return nil; }
-    
-    return [UIImage zt_compressedWithImageData:originalData maxSize:CGSizeMake(240, 240) maxDateLength:31500];
+    if (!originalData) {
+        return nil;
+    }
+    return [UIImage zt_compressedImageData:originalData maxSize:CGSizeMake(240, 240) maxDateLength:31500];
 }
 
 #pragma mark - WeChat
 
-/**
- 生成微信平台的请求信息的URL
- */
-+ (NSURL *)WeChatMessgaURL {
-    
-    NSMutableString *urlStr = [NSMutableString string];
-    [urlStr appendFormat:@"weixin://app/%@/sendreq/?", WeChatAppID];
-    return [NSURL URLWithString:urlStr];
+/// 生成微信平台的请求信息的URL
++ (NSString *)weChatMessgaURLStr {
+    return [NSString stringWithFormat:@"weixin://app/%@/sendreq/?", WeChatAppID];
+}
+
+/// 生成微信OAuthURL
++ (NSString *)weChatOAuthURLStrWithScope:(NSString * _Nullable)scope {
+    if (!scope) {
+        scope = @"snsapi_userinfo";
+    }
+    return [NSString stringWithFormat:@"weixin://app/%@/auth/?scope=%@&state=Weixinauth", WeChatAppID, scope];
 }
 
 /**
@@ -297,11 +399,17 @@
 + (BOOL)handleWeChatOpenURL:(NSURL *)url {
     
     NSString *urlString = url.absoluteString;
-//    NSDictionary<NSString *, NSString *> *queryDict = [self queryDictionaryWithURL:url];
     
     // 授权登录
     if ([urlString containsString:@"state=Weixinauth"]) {
-        return NO;
+        
+        NSDictionary<NSString *, NSString *> *queryDict = [self queryDictionaryWithURL:url];
+        NSString *code = queryDict[@"code"];
+        [self fetchWeChatOAuthInfoByCode:code completionHandler:^(NSDictionary * _Nullable dict, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            APPCOMMUNICATION.oauthCompletionHandler(dict, response, error);
+        }];
+        
+        return YES;
     }
     
     if ([urlString containsString:@"wapoauth"]) {
@@ -336,6 +444,48 @@
     APPCOMMUNICATION.shareCompletionHandler(success);
     
     return NO;
+}
+
+/// 获取微信用户信息
++ (void)fetchWeChatOAuthInfoByCode:(NSString *)code completionHandler:(NetworkingCompletionHandler)completionHandler {
+    
+    NSMutableString *accessTokenAPI = [NSMutableString stringWithString:@"https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code"];
+    [accessTokenAPI appendFormat:@"&appid=%@", WeChatAppID];
+    [accessTokenAPI appendFormat:@"&secret=%@", WeChatAppSecret];
+    [accessTokenAPI appendFormat:@"&code=%@", code];
+    
+    [self requestWithURLString:accessTokenAPI networkingMethod:NetworkingMethodGET parameters:nil completionHandler:completionHandler];
+}
+
+#pragma mark - Networking
+
+/**
+ 网络请求
+
+ @param urlString URL
+ @param networkingMethod 请求方法
+ @param parameters 参数
+ @param completionHandler 请求回调
+ */
++ (void)requestWithURLString:(NSString *)urlString networkingMethod:(NetworkingMethod)networkingMethod parameters:(NSDictionary *)parameters completionHandler:(NetworkingCompletionHandler)completionHandler {
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    if (!url) {
+        return;
+    }
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        if (![json isKindOfClass:[NSDictionary class]]) {
+            json = nil;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionHandler(json, response, error);
+        });
+    }];
+    [task resume];
 }
 
 @end

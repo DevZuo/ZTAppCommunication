@@ -38,11 +38,31 @@ typedef NS_ENUM(NSInteger, ShareMessageType) {
 };
 
 /**
- 回调处理
+ 错误码
+
+ - AppCommunicationErrorCodeOpenURL: 呼起APP失败
  */
-typedef void(^CompletionHandler)(BOOL success);
+typedef NS_ENUM(NSInteger, AppCommunicationErrorCode) {
+    AppCommunicationErrorCodeOpenURL = -1,
+};
+
+/// 网络请求回调处理
+typedef void(^NetworkingCompletionHandler)(NSDictionary * _Nullable dict, NSURLResponse * _Nullable response, NSError * _Nullable error);
+
+/// 分享回调处理
+typedef void(^ShareCompletionHandler)(BOOL success);
+/// OAuth回调处理
+#define OAuthCompletionHandler NetworkingCompletionHandler
 
 @interface AppCommunication : NSObject
+
+/**
+ 检测APP是否安装
+
+ @param platformType APP平台类型
+ @return APP是否安装标识符
+ */
++ (BOOL)isAppInstalledWithAppPlatform:(AppPlatformType)platformType;
 
 /**
  注册APP平台
@@ -56,12 +76,20 @@ typedef void(^CompletionHandler)(BOOL success);
 
  @param message 需要发送的信息
  @param shareMessageType 信息接受者，APP平台
+ @param completionHandler 回调处理
  */
-+ (void)shareMessage:(AppMessage *)message forShareMessageType:(ShareMessageType)shareMessageType completionHandler:(CompletionHandler)completionHandler;
++ (void)shareMessage:(AppMessage *)message forShareMessageType:(ShareMessageType)shareMessageType completionHandler:(ShareCompletionHandler)completionHandler;
 
 /**
- 处理UIApplication的application:openURL:sourceApplication:annotation:方法
+ OAuth
+
+ @param platformType 授权平台
+ @param scope 授权内容
+ @param completionHandler 回调处理
  */
++ (void)oauthWithAppPlatformType:(AppPlatformType)platformType scope:(NSString * _Nullable)scope completionHandler:(OAuthCompletionHandler)completionHandler;
+
+/// 处理UIApplication的application:openURL:sourceApplication:annotation:方法
 + (BOOL)handleOpenURL:(NSURL *)openURL;
 
 @end

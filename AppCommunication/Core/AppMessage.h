@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  消息类型
 
@@ -29,46 +31,28 @@ typedef NS_ENUM(NSInteger, AppMessageType) {
     AppMessageTypeFile
 };
 
-/**
- APP通讯消息
- */
+/// APP通讯消息
 @interface AppMessage : NSObject
 
-/**
- 标题
- */
-@property (copy, nonatomic) NSString *title;
-/**
- 内容
- */
-@property (copy, nonatomic) NSString *content;
-/**
- 图片
- */
-@property (strong, nonatomic) NSData *imgData;
-/**
- 缩略图
- */
-@property (strong, nonatomic) NSData *thumbnailData;
-/**
- URL
- */
-@property (strong, nonatomic) NSURL *url;
-/**
- 音频URL
- */
-@property (strong, nonatomic) NSURL *audioURL;
-/**
- 视频URL
- */
-@property (strong, nonatomic) NSURL *videoURL;
-/**
- 文件
- */
-@property (strong, nonatomic) NSData *fileData;
-/**
- 消息类型
- */
+/// 标题
+@property (nullable, copy, nonatomic) NSString *title;
+/// 内容
+@property (nullable, copy, nonatomic) NSString *content;
+/// 图片
+@property (nullable, strong, nonatomic) NSData *imgData;
+/// 缩略图
+@property (nullable, strong, nonatomic) NSData *thumbnailData;
+/// URL
+@property (nullable, strong, nonatomic) NSURL *url;
+/// 音频URL
+@property (nullable, strong, nonatomic) NSURL *audioURL;
+/// 视频URL
+@property (nullable, strong, nonatomic) NSURL *videoURL;
+/// 文件
+@property (nullable, strong, nonatomic) NSData *fileData;
+/// 消息类型
 @property (nonatomic) AppMessageType messageType;
 
 @end
+
+NS_ASSUME_NONNULL_END

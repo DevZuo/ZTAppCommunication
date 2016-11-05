@@ -23,6 +23,7 @@
 
 #pragma mark - Private
 
+/// 分享
 - (void)shareWithRow:(NSInteger)row {
     
     AppMessage *message = [[AppMessage alloc] init];
@@ -77,6 +78,9 @@
             break;
             
         default:
+        {
+            return;
+        }
             break;
     }
     
@@ -85,6 +89,40 @@
             NSLog(@"分享成功");
         } else {
             NSLog(@"分享失败");
+        }
+    }];
+}
+
+/// OAuth
+- (void)oauthWithRow:(NSInteger)row {
+    
+    AppPlatformType appPlatformType = AppPlatformTypeUnknown;
+    
+    switch (row) {
+        case 0: // 微信登录
+        {
+            appPlatformType = AppPlatformTypeWechat;
+        }
+            break;
+        case 1: // QQ登录
+        {
+            appPlatformType = AppPlatformTypeQQ;
+        }
+            break;
+            
+        default:
+        {
+            return;
+        }
+            break;
+    }
+    
+    [AppCommunication oauthWithAppPlatformType:appPlatformType scope:nil completionHandler:^(NSDictionary * _Nullable dict, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        if (error) {
+            NSLog(@"授权失败");
+        } else {
+            NSLog(@"授权成功：%@", dict);
         }
     }];
 }
@@ -99,7 +137,7 @@
     switch (section) {
         case 0: // 授权登录
         {
-            
+            [self oauthWithRow:row];
         }
             break;
         case 1: // 分享
