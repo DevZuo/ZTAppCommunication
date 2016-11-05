@@ -6,25 +6,25 @@
 //  Copyright © 2016年 zuoteng. All rights reserved.
 //
 
-#import "AppCommunication.h"
+#import "ZTAppCommunication.h"
 
 #import "UIImage+ZTCategory.h"
 #import "NSBundle+ZTCategory.h"
 #import "NSString+ZTCategory.h"
 
-#define APPCOMMUNICATION [AppCommunication singleton]
+#define ZTAPPCOMMUNICATION [ZTAppCommunication singleton]
 
 #define WeChatAppIDIdentifier @"AppCommunication.WeChat.AppID"
-#define WeChatAppID APPCOMMUNICATION.appPlatformDict[WeChatAppIDIdentifier]
-#define SetWeChatAppID(x) [APPCOMMUNICATION.appPlatformDict setObject:x forKey:WeChatAppIDIdentifier]
+#define WeChatAppID ZTAPPCOMMUNICATION.appPlatformDict[WeChatAppIDIdentifier]
+#define SetWeChatAppID(x) [ZTAPPCOMMUNICATION.appPlatformDict setObject:x forKey:WeChatAppIDIdentifier]
 
 #define WeChatAppSecretIdentifier @"AppCommunication.WeChat.AppSecret"
-#define WeChatAppSecret APPCOMMUNICATION.appPlatformDict[WeChatAppSecretIdentifier]
-#define SetWeChatAppSecret(x) [APPCOMMUNICATION.appPlatformDict setObject:x forKey:WeChatAppSecretIdentifier]
+#define WeChatAppSecret ZTAPPCOMMUNICATION.appPlatformDict[WeChatAppSecretIdentifier]
+#define SetWeChatAppSecret(x) [ZTAPPCOMMUNICATION.appPlatformDict setObject:x forKey:WeChatAppSecretIdentifier]
 
 #define QQAppIDIdentifier @"AppCommunication.QQ.AppID"
-#define QQAppID APPCOMMUNICATION.appPlatformDict[QQAppIDIdentifier]
-#define SetQQAppID(x) [APPCOMMUNICATION.appPlatformDict setObject:x forKey:QQAppIDIdentifier]
+#define QQAppID ZTAPPCOMMUNICATION.appPlatformDict[QQAppIDIdentifier]
+#define SetQQAppID(x) [ZTAPPCOMMUNICATION.appPlatformDict setObject:x forKey:QQAppIDIdentifier]
 
 #define WeChatPasteboardType @"content"
 #define QQPasteboardType @"com.tencent.mqq.api.apiLargeData"
@@ -49,7 +49,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
     NetworkingMethodGET
 };
 
-@interface AppCommunication ()
+@interface ZTAppCommunication ()
 
 /// 平台信息字典
 @property (readonly, strong, nonatomic) NSMutableDictionary *appPlatformDict;
@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
 
 @end
 
-@implementation AppCommunication
+@implementation ZTAppCommunication
 
 @synthesize appPlatformDict = _appPlatformDict;
 
@@ -70,10 +70,10 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
 
 + (instancetype)singleton {
     
-    static AppCommunication *appCommunication;
+    static ZTAppCommunication *appCommunication;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        appCommunication = [[AppCommunication alloc] init];
+        appCommunication = [[ZTAppCommunication alloc] init];
     });
     
     return appCommunication;
@@ -124,9 +124,9 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
  
  @param appPlatforms APP平台
  */
-+ (void)registerAppPlatform:(NSArray<AppPlatform *> *)appPlatforms {
++ (void)registerAppPlatform:(NSArray<ZTAppPlatform *> *)appPlatforms {
     
-    for (AppPlatform *appPlatform in appPlatforms) {
+    for (ZTAppPlatform *appPlatform in appPlatforms) {
         switch (appPlatform.platformType) {
             case AppPlatformTypeWechat:
             {
@@ -152,7 +152,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
  @param message 需要发送的信息
  @param shareMessageType 信息接受者，APP平台
  */
-+ (void)shareMessage:(AppMessage *)message forShareMessageType:(ShareMessageType)shareMessageType completionHandler:(ShareCompletionHandler)completionHandler {
++ (void)shareMessage:(ZTAppMessage *)message forShareMessageType:(ShareMessageType)shareMessageType completionHandler:(ShareCompletionHandler)completionHandler {
     
     NSString *urlStr = nil;
     switch (shareMessageType) {
@@ -185,7 +185,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
     }
     
     if ([self openURLStr:urlStr]) {
-        APPCOMMUNICATION.shareCompletionHandler = completionHandler;
+        ZTAPPCOMMUNICATION.shareCompletionHandler = completionHandler;
     } else {
         completionHandler(NO);
     }
@@ -218,7 +218,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
     }
     
     if ([self openURLStr:urlStr]) {
-        APPCOMMUNICATION.oauthCompletionHandler = completionHandler;
+        ZTAPPCOMMUNICATION.oauthCompletionHandler = completionHandler;
     } else {
         completionHandler(nil, nil, [NSError errorWithDomain:@"呼起微信失败" code:AppCommunicationErrorCodeOpenURL userInfo:nil]);
     }
@@ -251,7 +251,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
     }
     
     if ([self openURLStr:urlStr]) {
-        APPCOMMUNICATION.payCompletionHandler = completionHandler;
+        ZTAPPCOMMUNICATION.payCompletionHandler = completionHandler;
     } else {
         completionHandler(NO);
     }
@@ -344,7 +344,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
  
  @param shareMessageType 微信分享类型
  */
-+ (void)setupWeChatMessgaDataWithAppMessage:(AppMessage *)message forShareMessageType:(ShareMessageType)shareMessageType {
++ (void)setupWeChatMessgaDataWithAppMessage:(ZTAppMessage *)message forShareMessageType:(ShareMessageType)shareMessageType {
     
     if (AppMessageTypeFile == message.messageType) {
         NSAssert(NO, @"微信不支持文件分享");
@@ -455,7 +455,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
             return NO;
         }
         [self fetchWeChatOAuthInfoByCode:code completionHandler:^(NSDictionary * _Nullable dict, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            APPCOMMUNICATION.oauthCompletionHandler(dict, response, error);
+            ZTAPPCOMMUNICATION.oauthCompletionHandler(dict, response, error);
         }];
         
         return YES;
@@ -493,7 +493,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
     
     NSInteger result = [info[@"result"] integerValue];
     BOOL success = (result == 0);
-    APPCOMMUNICATION.shareCompletionHandler(success);
+    ZTAPPCOMMUNICATION.shareCompletionHandler(success);
     
     return NO;
 }
@@ -512,7 +512,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
 #pragma mark - QQ
 
 /// 生成QQ平台的请求信息的URL
-+ (NSString * _Nullable)qqMessgaURLStrWithMessage:(AppMessage *)message forShareMessageType:(ShareMessageType)shareMessageType {
++ (NSString * _Nullable)qqMessgaURLStrWithMessage:(ZTAppMessage *)message forShareMessageType:(ShareMessageType)shareMessageType {
     
     NSInteger scene = 0x00;
     switch (shareMessageType) {
@@ -616,7 +616,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
 }
 
 /// 设置QQ分享信息的数据
-+ (void)setupQQMessgaDataWithAppMessage:(AppMessage *)message {
++ (void)setupQQMessgaDataWithAppMessage:(ZTAppMessage *)message {
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
@@ -642,7 +642,7 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
     id error = queryDict[@"error"];
     if ([error isKindOfClass:[NSString class]]) {
         BOOL success = [error isEqualToString:@"0"];
-        APPCOMMUNICATION.shareCompletionHandler(success);
+        ZTAPPCOMMUNICATION.shareCompletionHandler(success);
         return success;
     }
     

@@ -6,8 +6,8 @@
 //  Copyright © 2016年 zuoteng. All rights reserved.
 //
 
-#import "AppMessage.h"
+#import "ZTAppMessage.h"
 
-@implementation AppMessage
+@implementation ZTAppMessage
 
 @end

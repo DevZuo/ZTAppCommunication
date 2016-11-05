@@ -13,12 +13,12 @@
 		F127E5DA1DCB23A40069F99A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F127E5D91DCB23A40069F99A /* Assets.xcassets */; };
 		F127E5DD1DCB23A40069F99A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F127E5DB1DCB23A40069F99A /* LaunchScreen.storyboard */; };
 		F16E191D1DCB26E2006B055C /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F16E191C1DCB26E2006B055C /* TableViewController.m */; };
-		F16E193D1DCB33EB006B055C /* AppCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = F16E19391DCB33EB006B055C /* AppCommunication.m */; };
-		F16E193E1DCB33EB006B055C /* AppPlatform.m in Sources */ = {isa = PBXBuildFile; fileRef = F16E193B1DCB33EB006B055C /* AppPlatform.m */; };
-		F16E19411DCB35AF006B055C /* AppMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F16E19401DCB35AF006B055C /* AppMessage.m */; };
-		F18A3C8B1DCD7DD100FD30C2 /* UIImage+ZTCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F18A3C8A1DCD7DD100FD30C2 /* UIImage+ZTCategory.m */; };
-		F18A3C921DCDCE7F00FD30C2 /* NSString+ZTCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F18A3C911DCDCE7F00FD30C2 /* NSString+ZTCategory.m */; };
-		F18A3C961DCDCFA700FD30C2 /* NSBundle+ZTCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F18A3C951DCDCFA700FD30C2 /* NSBundle+ZTCategory.m */; };
+		F18A3CAA1DCDE0BE00FD30C2 /* NSBundle+ZTCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F18A3C9B1DCDE0BE00FD30C2 /* NSBundle+ZTCategory.m */; };
+		F18A3CAB1DCDE0BE00FD30C2 /* NSString+ZTCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F18A3C9E1DCDE0BE00FD30C2 /* NSString+ZTCategory.m */; };
+		F18A3CAC1DCDE0BE00FD30C2 /* UIImage+ZTCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = F18A3CA11DCDE0BE00FD30C2 /* UIImage+ZTCategory.m */; };
+		F18A3CAD1DCDE0BE00FD30C2 /* ZTAppCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = F18A3CA41DCDE0BE00FD30C2 /* ZTAppCommunication.m */; };
+		F18A3CAE1DCDE0BE00FD30C2 /* ZTAppMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F18A3CA61DCDE0BE00FD30C2 /* ZTAppMessage.m */; };
+		F18A3CAF1DCDE0BE00FD30C2 /* ZTAppPlatform.m in Sources */ = {isa = PBXBuildFile; fileRef = F18A3CA81DCDE0BE00FD30C2 /* ZTAppPlatform.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,7 +35,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F127BFC71DCC25C400EFFF8B /* AppMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppMessage.h; sourceTree = "<group>"; };
 		F127E5CA1DCB23A40069F99A /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F127E5CE1DCB23A40069F99A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F127E5D01DCB23A40069F99A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -46,17 +45,18 @@
 		F127E5DE1DCB23A40069F99A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F16E191B1DCB26E2006B055C /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
 		F16E191C1DCB26E2006B055C /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
-		F16E19381DCB33EB006B055C /* AppCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCommunication.h; sourceTree = "<group>"; };
-		F16E19391DCB33EB006B055C /* AppCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppCommunication.m; sourceTree = "<group>"; };
-		F16E193A1DCB33EB006B055C /* AppPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppPlatform.h; sourceTree = "<group>"; };
-		F16E193B1DCB33EB006B055C /* AppPlatform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppPlatform.m; sourceTree = "<group>"; };
-		F16E19401DCB35AF006B055C /* AppMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppMessage.m; sourceTree = "<group>"; };
-		F18A3C891DCD7DD100FD30C2 /* UIImage+ZTCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ZTCategory.h"; sourceTree = "<group>"; };
-		F18A3C8A1DCD7DD100FD30C2 /* UIImage+ZTCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ZTCategory.m"; sourceTree = "<group>"; };
-		F18A3C901DCDCE7F00FD30C2 /* NSString+ZTCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+ZTCategory.h"; sourceTree = "<group>"; };
-		F18A3C911DCDCE7F00FD30C2 /* NSString+ZTCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ZTCategory.m"; sourceTree = "<group>"; };
-		F18A3C941DCDCFA700FD30C2 /* NSBundle+ZTCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+ZTCategory.h"; sourceTree = "<group>"; };
-		F18A3C951DCDCFA700FD30C2 /* NSBundle+ZTCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+ZTCategory.m"; sourceTree = "<group>"; };
+		F18A3C9A1DCDE0BE00FD30C2 /* NSBundle+ZTCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+ZTCategory.h"; sourceTree = "<group>"; };
+		F18A3C9B1DCDE0BE00FD30C2 /* NSBundle+ZTCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+ZTCategory.m"; sourceTree = "<group>"; };
+		F18A3C9D1DCDE0BE00FD30C2 /* NSString+ZTCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+ZTCategory.h"; sourceTree = "<group>"; };
+		F18A3C9E1DCDE0BE00FD30C2 /* NSString+ZTCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ZTCategory.m"; sourceTree = "<group>"; };
+		F18A3CA01DCDE0BE00FD30C2 /* UIImage+ZTCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ZTCategory.h"; sourceTree = "<group>"; };
+		F18A3CA11DCDE0BE00FD30C2 /* UIImage+ZTCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ZTCategory.m"; sourceTree = "<group>"; };
+		F18A3CA31DCDE0BE00FD30C2 /* ZTAppCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZTAppCommunication.h; sourceTree = "<group>"; };
+		F18A3CA41DCDE0BE00FD30C2 /* ZTAppCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZTAppCommunication.m; sourceTree = "<group>"; };
+		F18A3CA51DCDE0BE00FD30C2 /* ZTAppMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZTAppMessage.h; sourceTree = "<group>"; };
+		F18A3CA61DCDE0BE00FD30C2 /* ZTAppMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZTAppMessage.m; sourceTree = "<group>"; };
+		F18A3CA71DCDE0BE00FD30C2 /* ZTAppPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZTAppPlatform.h; sourceTree = "<group>"; };
+		F18A3CA81DCDE0BE00FD30C2 /* ZTAppPlatform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZTAppPlatform.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +89,7 @@
 		F127E5CC1DCB23A40069F99A /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				F16E19361DCB33EB006B055C /* AppCommunication */,
+				F18A3C971DCDE0BE00FD30C2 /* ZTAppCommunication */,
 				F127E5D01DCB23A40069F99A /* AppDelegate.h */,
 				F127E5D11DCB23A40069F99A /* AppDelegate.m */,
 				F16E191B1DCB26E2006B055C /* TableViewController.h */,
@@ -111,72 +111,72 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		F16E19361DCB33EB006B055C /* AppCommunication */ = {
+		F18A3C971DCDE0BE00FD30C2 /* ZTAppCommunication */ = {
 			isa = PBXGroup;
 			children = (
-				F18A3C831DCD757A00FD30C2 /* Category */,
-				F16E19371DCB33EB006B055C /* Core */,
-				F16E193C1DCB33EB006B055C /* UI */,
+				F18A3C981DCDE0BE00FD30C2 /* Category */,
+				F18A3CA21DCDE0BE00FD30C2 /* Core */,
+				F18A3CA91DCDE0BE00FD30C2 /* UI */,
 			);
-			name = AppCommunication;
-			path = ../../AppCommunication;
+			name = ZTAppCommunication;
+			path = ../../ZTAppCommunication;
 			sourceTree = "<group>";
 		};
-		F16E19371DCB33EB006B055C /* Core */ = {
+		F18A3C981DCDE0BE00FD30C2 /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				F16E19381DCB33EB006B055C /* AppCommunication.h */,
-				F16E19391DCB33EB006B055C /* AppCommunication.m */,
-				F16E193A1DCB33EB006B055C /* AppPlatform.h */,
-				F16E193B1DCB33EB006B055C /* AppPlatform.m */,
-				F127BFC71DCC25C400EFFF8B /* AppMessage.h */,
-				F16E19401DCB35AF006B055C /* AppMessage.m */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		F16E193C1DCB33EB006B055C /* UI */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
-		F18A3C831DCD757A00FD30C2 /* Category */ = {
-			isa = PBXGroup;
-			children = (
-				F18A3C931DCDCF9800FD30C2 /* NSBundle+ZTCategory */,
-				F18A3C8C1DCDCE4300FD30C2 /* NSString+ZTCategory */,
-				F18A3C881DCD7DD100FD30C2 /* UIImage+ZTCategory */,
+				F18A3C991DCDE0BE00FD30C2 /* NSBundle+ZTCategory */,
+				F18A3C9C1DCDE0BE00FD30C2 /* NSString+ZTCategory */,
+				F18A3C9F1DCDE0BE00FD30C2 /* UIImage+ZTCategory */,
 			);
 			path = Category;
 			sourceTree = "<group>";
 		};
-		F18A3C881DCD7DD100FD30C2 /* UIImage+ZTCategory */ = {
+		F18A3C991DCDE0BE00FD30C2 /* NSBundle+ZTCategory */ = {
 			isa = PBXGroup;
 			children = (
-				F18A3C891DCD7DD100FD30C2 /* UIImage+ZTCategory.h */,
-				F18A3C8A1DCD7DD100FD30C2 /* UIImage+ZTCategory.m */,
+				F18A3C9A1DCDE0BE00FD30C2 /* NSBundle+ZTCategory.h */,
+				F18A3C9B1DCDE0BE00FD30C2 /* NSBundle+ZTCategory.m */,
 			);
-			path = "UIImage+ZTCategory";
+			path = "NSBundle+ZTCategory";
 			sourceTree = "<group>";
 		};
-		F18A3C8C1DCDCE4300FD30C2 /* NSString+ZTCategory */ = {
+		F18A3C9C1DCDE0BE00FD30C2 /* NSString+ZTCategory */ = {
 			isa = PBXGroup;
 			children = (
-				F18A3C901DCDCE7F00FD30C2 /* NSString+ZTCategory.h */,
-				F18A3C911DCDCE7F00FD30C2 /* NSString+ZTCategory.m */,
+				F18A3C9D1DCDE0BE00FD30C2 /* NSString+ZTCategory.h */,
+				F18A3C9E1DCDE0BE00FD30C2 /* NSString+ZTCategory.m */,
 			);
 			path = "NSString+ZTCategory";
 			sourceTree = "<group>";
 		};
-		F18A3C931DCDCF9800FD30C2 /* NSBundle+ZTCategory */ = {
+		F18A3C9F1DCDE0BE00FD30C2 /* UIImage+ZTCategory */ = {
 			isa = PBXGroup;
 			children = (
-				F18A3C941DCDCFA700FD30C2 /* NSBundle+ZTCategory.h */,
-				F18A3C951DCDCFA700FD30C2 /* NSBundle+ZTCategory.m */,
+				F18A3CA01DCDE0BE00FD30C2 /* UIImage+ZTCategory.h */,
+				F18A3CA11DCDE0BE00FD30C2 /* UIImage+ZTCategory.m */,
 			);
-			path = "NSBundle+ZTCategory";
+			path = "UIImage+ZTCategory";
+			sourceTree = "<group>";
+		};
+		F18A3CA21DCDE0BE00FD30C2 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F18A3CA31DCDE0BE00FD30C2 /* ZTAppCommunication.h */,
+				F18A3CA41DCDE0BE00FD30C2 /* ZTAppCommunication.m */,
+				F18A3CA51DCDE0BE00FD30C2 /* ZTAppMessage.h */,
+				F18A3CA61DCDE0BE00FD30C2 /* ZTAppMessage.m */,
+				F18A3CA71DCDE0BE00FD30C2 /* ZTAppPlatform.h */,
+				F18A3CA81DCDE0BE00FD30C2 /* ZTAppPlatform.m */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		F18A3CA91DCDE0BE00FD30C2 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,15 +253,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F18A3C961DCDCFA700FD30C2 /* NSBundle+ZTCategory.m in Sources */,
-				F16E193D1DCB33EB006B055C /* AppCommunication.m in Sources */,
-				F16E19411DCB35AF006B055C /* AppMessage.m in Sources */,
+				F18A3CAB1DCDE0BE00FD30C2 /* NSString+ZTCategory.m in Sources */,
+				F18A3CAC1DCDE0BE00FD30C2 /* UIImage+ZTCategory.m in Sources */,
 				F127E5D21DCB23A40069F99A /* AppDelegate.m in Sources */,
 				F16E191D1DCB26E2006B055C /* TableViewController.m in Sources */,
-				F16E193E1DCB33EB006B055C /* AppPlatform.m in Sources */,
+				F18A3CAA1DCDE0BE00FD30C2 /* NSBundle+ZTCategory.m in Sources */,
+				F18A3CAF1DCDE0BE00FD30C2 /* ZTAppPlatform.m in Sources */,
+				F18A3CAE1DCDE0BE00FD30C2 /* ZTAppMessage.m in Sources */,
 				F127E5CF1DCB23A40069F99A /* main.m in Sources */,
-				F18A3C8B1DCD7DD100FD30C2 /* UIImage+ZTCategory.m in Sources */,
-				F18A3C921DCDCE7F00FD30C2 /* NSString+ZTCategory.m in Sources */,
+				F18A3CAD1DCDE0BE00FD30C2 /* ZTAppCommunication.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

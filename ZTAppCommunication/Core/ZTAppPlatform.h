@@ -1,5 +1,5 @@
 //
-//  AppPlatform.h
+//  ZTAppPlatform.h
 //  Demo
 //
 //  Created by zuoteng on 2016/11/3.
@@ -24,7 +24,7 @@ typedef NS_ENUM(NSInteger, AppPlatformType) {
 };
 
 /// APP通讯平台
-@interface AppPlatform : NSObject
+@interface ZTAppPlatform : NSObject
 
 /// 平台类型
 @property (readonly, nonatomic) AppPlatformType platformType;

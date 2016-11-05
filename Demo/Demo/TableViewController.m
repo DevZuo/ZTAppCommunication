@@ -8,7 +8,7 @@
 
 #import "TableViewController.h"
 
-#import "AppCommunication.h"
+#import "ZTAppCommunication.h"
 
 @interface TableViewController ()
 
@@ -26,7 +26,7 @@
 /// 分享
 - (void)shareWithRow:(NSInteger)row {
     
-    AppMessage *message = [[AppMessage alloc] init];
+    ZTAppMessage *message = [[ZTAppMessage alloc] init];
     
     switch (row) {
         case 0: // 文字
@@ -84,7 +84,7 @@
             break;
     }
     
-    [AppCommunication shareMessage:message forShareMessageType:ShareMessageTypeWeChatFriend completionHandler:^(BOOL success) {
+    [ZTAppCommunication shareMessage:message forShareMessageType:ShareMessageTypeWeChatFriend completionHandler:^(BOOL success) {
         if (success) {
             NSLog(@"分享成功");
         } else {
@@ -117,7 +117,7 @@
             break;
     }
     
-    [AppCommunication oauthWithAppPlatformType:appPlatformType scope:nil completionHandler:^(NSDictionary * _Nullable dict, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [ZTAppCommunication oauthWithAppPlatformType:appPlatformType scope:nil completionHandler:^(NSDictionary * _Nullable dict, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         if (error) {
             NSLog(@"授权失败");

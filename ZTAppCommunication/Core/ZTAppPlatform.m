@@ -6,9 +6,9 @@
 //  Copyright © 2016年 zuoteng. All rights reserved.
 //
 
-#import "AppPlatform.h"
+#import "ZTAppPlatform.h"
 
-@interface AppPlatform ()
+@interface ZTAppPlatform ()
 
 /// 平台类型
 @property (readwrite, nonatomic) AppPlatformType platformType;
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation AppPlatform
+@implementation ZTAppPlatform
 
 /// 初始化微信平台
 + (instancetype)weChatPlatformWithAppID:(NSString *)appID appSecret:(NSString *)appSecret {
@@ -27,7 +27,7 @@
         return nil;
     }
     
-    AppPlatform *appPlatform = [[AppPlatform alloc] init];
+    ZTAppPlatform *appPlatform = [[ZTAppPlatform alloc] init];
     appPlatform.platformType = AppPlatformTypeWechat;
     appPlatform.appID = appID;
     appPlatform.appSecret = appSecret;
@@ -40,7 +40,7 @@
         return nil;
     }
     
-    AppPlatform *appPlatform = [[AppPlatform alloc] init];
+    ZTAppPlatform *appPlatform = [[ZTAppPlatform alloc] init];
     appPlatform.platformType = AppPlatformTypeQQ;
     appPlatform.appID = appID;
     return appPlatform;

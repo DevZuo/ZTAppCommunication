@@ -1,5 +1,5 @@
 //
-//  AppMessage.h
+//  ZTAppMessage.h
 //  Demo
 //
 //  Created by zuoteng on 2016/11/3.
@@ -32,7 +32,7 @@ typedef NS_ENUM(NSInteger, AppMessageType) {
 };
 
 /// APP通讯消息
-@interface AppMessage : NSObject
+@interface ZTAppMessage : NSObject
 
 /// 标题
 @property (nullable, copy, nonatomic) NSString *title;

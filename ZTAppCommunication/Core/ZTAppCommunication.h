@@ -1,5 +1,5 @@
 //
-//  AppCommunication.h
+//  ZTAppCommunication.h
 //  Demo
 //
 //  Created by zuoteng on 2016/11/3.
@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "AppPlatform.h"
-#import "AppMessage.h"
+#import "ZTAppPlatform.h"
+#import "ZTAppMessage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -46,7 +46,7 @@ typedef void(^PayCompletionHandler)(BOOL success);
 /// OAuth回调处理
 #define OAuthCompletionHandler NetworkingCompletionHandler
 
-@interface AppCommunication : NSObject
+@interface ZTAppCommunication : NSObject
 
 /**
  检测APP是否安装
@@ -61,7 +61,7 @@ typedef void(^PayCompletionHandler)(BOOL success);
 
  @param appPlatforms APP平台
  */
-+ (void)registerAppPlatform:(NSArray<AppPlatform *> *)appPlatforms;
++ (void)registerAppPlatform:(NSArray<ZTAppPlatform *> *)appPlatforms;
 
 /**
  分享到APP平台
@@ -70,7 +70,7 @@ typedef void(^PayCompletionHandler)(BOOL success);
  @param shareMessageType 信息接受者，APP平台
  @param completionHandler 回调处理
  */
-+ (void)shareMessage:(AppMessage *)message forShareMessageType:(ShareMessageType)shareMessageType completionHandler:(ShareCompletionHandler)completionHandler;
++ (void)shareMessage:(ZTAppMessage *)message forShareMessageType:(ShareMessageType)shareMessageType completionHandler:(ShareCompletionHandler)completionHandler;
 
 /**
  OAuth

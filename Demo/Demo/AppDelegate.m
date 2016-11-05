@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 
-#import "AppCommunication.h"
+#import "ZTAppCommunication.h"
 
 @interface AppDelegate ()
 
@@ -20,16 +20,16 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    NSArray<AppPlatform *> *platforms =
-  @[[AppPlatform weChatPlatformWithAppID:@"wx483f72523517dbac" appSecret:@"64020361b8ec4c99936c0e3999a9f249"],
-    [AppPlatform qqPlatformTypeWithAppID:@"1104881792"]];
-    [AppCommunication registerAppPlatform:platforms];
+    NSArray<ZTAppPlatform *> *platforms =
+  @[[ZTAppPlatform weChatPlatformWithAppID:@"wx483f72523517dbac" appSecret:@"64020361b8ec4c99936c0e3999a9f249"],
+    [ZTAppPlatform qqPlatformTypeWithAppID:@"1104881792"]];
+    [ZTAppCommunication registerAppPlatform:platforms];
     
     return YES;
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(id)annotation {
-    return [AppCommunication handleOpenURL:url];
+    return [ZTAppCommunication handleOpenURL:url];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
