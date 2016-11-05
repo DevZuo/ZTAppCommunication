@@ -10,7 +10,12 @@
 
 @implementation UIImage (ZTCategory)
 
-/// 等比压缩，scale表示为倍数
+/**
+ 按照压缩倍数等比压缩
+ 
+ @param scale 压缩倍数
+ @return 等比压缩后生成的新图片
+ */
 - (UIImage *)zt_compressedWithScale:(CGFloat)scale {
     
     CGSize scaleSize = CGSizeMake(floorf(self.size.width*scale), floorf(self.size.height*scale));
@@ -22,7 +27,12 @@
     return scaleImg;
 }
 
-/// 等比压缩到指定大小内，inSize表示指定大小
+/**
+ 等比压缩到指定大小内
+ 
+ @param inSize 指定大小
+ @return 等比压缩后生成的新图片
+ */
 - (UIImage *)zt_compressedInSize:(CGSize)inSize {
     CGFloat scale = MIN(inSize.width/self.size.width, inSize.height/self.size.height);
     return [self zt_compressedWithScale:scale];
