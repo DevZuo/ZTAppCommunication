@@ -33,9 +33,11 @@
  错误码
  
  - AppCommunicationErrorCodeOpenURL: 呼起APP失败
+ - AppCommunicationErrorCodeOAuth: 微信授权失败
  */
 typedef NS_ENUM(NSInteger, AppCommunicationErrorCode) {
     AppCommunicationErrorCodeOpenURL = -1,
+    AppCommunicationErrorCodeOAuth = -2
 };
 
 /**
@@ -491,9 +493,15 @@ typedef NS_ENUM(NSInteger, NetworkingMethod) {
         return NO;
     }
     
+    NSString *state = info[@"state"];
     NSInteger result = [info[@"result"] integerValue];
     BOOL success = (result == 0);
-    ZTAPPCOMMUNICATION.shareCompletionHandler(success);
+    if ([state isEqualToString:@"Weixinauth"]) {
+        NSError *error = [NSError errorWithDomain:@"" code:AppCommunicationErrorCodeOAuth userInfo:nil];
+        ZTAPPCOMMUNICATION.oauthCompletionHandler(nil, nil, error);
+    } else {
+        ZTAPPCOMMUNICATION.shareCompletionHandler(success);
+    }
     
     return NO;
 }
